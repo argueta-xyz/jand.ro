@@ -36,3 +36,4 @@ end
 # kramdown v1, comment out this line.
 gem "kramdown-parser-gfm"
 
+gem "sass"
