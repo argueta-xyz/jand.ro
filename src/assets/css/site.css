@@ -1,0 +1,112 @@
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+.prose h1 {
+  font-family: 'Newsreader', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+  color: #e7e5e4;
+}
+
+.prose h2 {
+  font-family: 'Newsreader', serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+  color: #e7e5e4;
+  border-bottom: 1px solid rgba(72, 72, 72, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.prose h3 {
+  font-family: 'Newsreader', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #c6c6c6;
+}
+
+.prose p {
+  font-family: 'Newsreader', serif;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: rgba(231, 229, 228, 0.8);
+}
+
+.prose blockquote {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  border-left: 2px solid #ff7163;
+  padding: 2rem 3rem;
+  margin: 4rem 0;
+  background-color: #131313;
+  color: #e7e5e4;
+}
+
+.prose code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  background-color: #1f2020;
+  padding: 0.2rem 0.4rem;
+  color: #ff7163;
+}
+
+.prose pre {
+  background-color: #000000;
+  color: #acabaa;
+  padding: 2rem;
+  overflow-x: auto;
+  margin: 3rem 0;
+  border: 1px solid rgba(72, 72, 72, 0.3);
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: 0.875rem;
+}
+
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 2rem;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+  font-family: 'Newsreader', serif;
+  font-size: 1.15rem;
+  color: rgba(231, 229, 228, 0.7);
+}
+
+.prose ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: #ff7163;
+  font-weight: bold;
+}
+
+.selection\:bg-secondary ::selection {
+  background-color: #ff7163;
+  color: #4a0002;
+}
+
+body {
+  background-color: #0e0e0e;
+  color: #e7e5e4;
+  -webkit-font-smoothing: antialiased;
+}

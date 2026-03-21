@@ -1,0 +1,232 @@
+<div id="album-lightbox" class="fixed inset-0 z-[100] opacity-0 invisible pointer-events-none transition-opacity duration-200 ease-out" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ site.ui.lightbox.dialogLabel }}">
+  <button type="button" id="album-lightbox-backdrop" class="absolute inset-0 z-0 w-full h-full border-0 bg-black/50 backdrop-blur-md p-0 cursor-default" tabindex="-1" aria-label="{{ site.ui.aria.close }}"></button>
+  <div class="pointer-events-auto absolute inset-24 z-10 flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border
+      border-outline-variant/25 bg-background shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_28px_100px_-8px_rgba(0,0,0,0.85)]
+      lg:flex-row">
+    <div class="relative flex min-h-0 min-w-0 flex-1 items-center justify-center bg-surface-container-lowest p-2 sm:p-3">
+      <button type="button" id="album-lightbox-prev" class="hidden absolute left-2 lg:left-4 top-1/2 z-20 -translate-y-1/2 border border-outline-variant/30 bg-background/80 p-3 text-on-surface backdrop-blur-sm hover:bg-surface-container-low pointer-events-auto" aria-label="{{ site.ui.aria.previousImage }}">
+        <span class="material-symbols-outlined text-2xl">chevron_left</span>
+      </button>
+      <button type="button" id="album-lightbox-next" class="hidden absolute right-2 lg:right-4 top-1/2 z-20 -translate-y-1/2 border border-outline-variant/30 bg-background/80 p-3 text-on-surface backdrop-blur-sm hover:bg-surface-container-low pointer-events-auto" aria-label="{{ site.ui.aria.nextImage }}">
+        <span class="material-symbols-outlined text-2xl">chevron_right</span>
+      </button>
+      <img
+        id="album-lightbox-img"
+        alt=""
+        class="relative z-10 max-h-full max-w-full w-auto h-auto object-contain pointer-events-auto"/>
+    </div>
+    <aside
+      id="album-lightbox-aside"
+      class="flex max-h-[38vh] min-h-0 w-full shrink-0 flex-col border-t border-outline-variant/20 bg-surface-container-low
+        lg:max-h-none lg:h-auto lg:w-[min(22rem,40vw)] lg:border-l lg:border-t-0">
+      <div class="flex shrink-0 justify-end px-6 pb-2 pt-5 lg:px-8 lg:pb-3 lg:pt-7">
+        <button type="button" id="album-lightbox-close" class="border border-outline-variant/25 bg-surface-container-high/90 p-2 text-on-surface transition-colors hover:bg-surface-bright" aria-label="{{ site.ui.aria.close }}">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+      <div class="min-h-0 flex-1 overflow-y-auto px-6 pb-6 lg:px-8 lg:pb-8">
+        <div id="album-lightbox-caption-block" class="mb-6 hidden">
+          <p class="mb-2 font-label text-[9px] uppercase tracking-[0.25em] text-on-surface-variant">{{ site.ui.lightbox.captionLabel }}</p>
+          <p id="album-lightbox-caption" class="font-headline text-lg italic leading-relaxed text-on-surface"></p>
+        </div>
+        <div id="album-lightbox-location-block" class="mb-6 hidden">
+          <p class="mb-2 font-label text-[9px] uppercase tracking-[0.25em] text-on-surface-variant">{{ site.ui.lightbox.locationLabel }}</p>
+          <p id="album-lightbox-location" class="font-mono text-sm text-on-surface"></p>
+        </div>
+        <div id="album-lightbox-exif-block" class="hidden">
+          <p class="mb-3 font-label text-[9px] uppercase tracking-[0.25em] text-on-surface-variant">{{ site.ui.lightbox.exifLabel }}</p>
+          <dl id="album-lightbox-exif" class="space-y-2 font-mono text-xs text-on-surface-variant"></dl>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script>
+  (function () {
+    var root = document.getElementById('album-lightbox');
+    var backdrop = document.getElementById('album-lightbox-backdrop');
+    var img = document.getElementById('album-lightbox-img');
+    var closeBtn = document.getElementById('album-lightbox-close');
+    var prevBtn = document.getElementById('album-lightbox-prev');
+    var nextBtn = document.getElementById('album-lightbox-next');
+    var aside = document.getElementById('album-lightbox-aside');
+    var capBlock = document.getElementById('album-lightbox-caption-block');
+    var capEl = document.getElementById('album-lightbox-caption');
+    var locBlock = document.getElementById('album-lightbox-location-block');
+    var locEl = document.getElementById('album-lightbox-location');
+    var exifBlock = document.getElementById('album-lightbox-exif-block');
+    var exifDl = document.getElementById('album-lightbox-exif');
+    var seriesEl = document.getElementById('album-lightbox-series');
+    if (! root || ! img || ! closeBtn || ! backdrop)
+      return;
+
+    var series = [];
+    if (seriesEl && seriesEl.textContent) {
+      try {
+        series = JSON.parse(seriesEl.textContent.trim());
+      } catch (e) {
+        series = [];
+      }
+    }
+    var currentIdx = -1;
+    function hide(el) {
+      el.classList.add('hidden');
+    }
+    function show(el) {
+      el.classList.remove('hidden');
+    }
+    function isLightboxOpen() {
+      return root.getAttribute('aria-hidden') === 'false';
+    }
+    function updateNavVisibility() {
+      var multi = series.length > 1;
+      if (prevBtn && nextBtn) {
+        prevBtn.classList.toggle('hidden', ! multi);
+        nextBtn.classList.toggle('hidden', ! multi);
+      }
+    }
+    function applyPayload(payload) {
+      if (! payload || ! payload.src)
+        return;
+
+      img.src = payload.src;
+      img.alt = payload.alt || '';
+      var hasCap = !!(payload.caption && String(payload.caption).trim());
+      var hasLoc = !!(payload.location && String(payload.location).trim());
+      var exif = payload.exif;
+      var hasExif = exif && typeof exif === 'object' && Object.keys(exif).length > 0;
+      if (hasCap) {
+        capEl.textContent = payload.caption;
+        show(capBlock);
+      } else {
+        hide(capBlock);
+      }
+      if (hasLoc) {
+        locEl.textContent = payload.location;
+        show(locBlock);
+      } else {
+        hide(locBlock);
+      } exifDl.innerHTML = '';
+      if (hasExif) {
+        Object.keys(exif).forEach(function (key) {
+          var dt = document.createElement('dt');
+          dt.className = 'text-outline-variant uppercase tracking-wider text-[10px]';
+          dt.textContent = key;
+          var dd = document.createElement('dd');
+          dd.className = 'text-on-surface mt-0.5 mb-2';
+          dd.textContent = String(exif[key]);
+          exifDl.appendChild(dt);
+          exifDl.appendChild(dd);
+        });
+        show(exifBlock);
+      } else {
+        hide(exifBlock);
+      } show(aside);
+    }
+    function openLightbox() {
+      root.setAttribute('aria-hidden', 'false');
+      document
+        .documentElement
+        .classList
+        .add('overflow-hidden');
+      root.classList.remove('invisible', 'pointer-events-none');
+      requestAnimationFrame(function () {
+        root.classList.remove('opacity-0');
+        root.classList.add('opacity-100');
+      });
+    }
+    function closeLb() {
+      root.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+      root.classList.remove('opacity-100');
+      root.setAttribute('aria-hidden', 'true');
+      document
+        .documentElement
+        .classList
+        .remove('overflow-hidden');
+      img.removeAttribute('src');
+      currentIdx = -1;
+      if (prevBtn && nextBtn) {
+        prevBtn.classList.add('hidden');
+        nextBtn.classList.add('hidden');
+      }
+    }
+    function showAt(i) {
+      if (! series.length || i < 0 || i >= series.length)
+        return;
+
+      currentIdx = i;
+      applyPayload(series[i]);
+      updateNavVisibility();
+      openLightbox();
+    }
+    function step(d) {
+      if (series.length <= 1)
+        return;
+
+      var n = (currentIdx + d + series.length) % series.length;
+      showAt(n);
+    }
+    document.querySelectorAll('.js-album-lightbox-open').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (series.length) {
+          var idx = parseInt(el.getAttribute('data-lightbox-index'), 10);
+          if (!isNaN(idx)) {
+            showAt(idx);
+            return;
+          }
+        }
+        var raw = el.getAttribute('data-lightbox');
+        if (! raw)
+          return;
+
+        try {
+          var payload = JSON.parse(raw);
+          currentIdx = -1;
+          applyPayload(payload);
+          updateNavVisibility();
+          if (prevBtn && nextBtn) {
+            prevBtn.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+          }
+          openLightbox();
+        } catch (err) {
+          return;
+        }
+      });
+    });
+    if (prevBtn)
+      prevBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        step(-1);
+      });
+
+    if (nextBtn)
+      nextBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        step(1);
+      });
+
+    closeBtn.addEventListener('click', closeLb);
+    backdrop.addEventListener('click', closeLb);
+    document.addEventListener('keydown', function (e) {
+      if (! isLightboxOpen())
+        return;
+
+      if (e.key === 'Escape') {
+        closeLb();
+        return;
+      }
+      if (series.length <= 1)
+        return;
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        step(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        step(1);
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,72 @@
+{
+  "name": "jand.ro",
+  "brand": {
+    "titleSuffix": "jand.ro",
+    "wordmarkStem": "jand",
+    "wordmarkAccent": "ro"
+  },
+  "defaults": {
+    "authorAvatar": "/assets/images/placeholders/avatar.svg"
+  },
+  "hero_title": "Curated thoughts on the <span class=\"text-secondary\">digital tactile</span> experience.",
+  "description": "Exploring the intersection of Markdown simplicity, typographic rigor, and high-end editorial aesthetics in the modern web.",
+  "author_quote": "To be an archivist is to recognize that everything valuable deserves a beautiful container.",
+  "newsletter_cta": "Join our weekly monograph for deeper insights into digital craftsmanship.",
+  "ui": {
+    "nav": {
+      "albums": "Albums",
+      "posts": "Posts",
+      "external": [
+        { "label": "jand.ro", "href": "https://jand.ro" }
+      ],
+      "actions": [
+        { "href": "https://github.com/argueta-xyz", "icon": "code_blocks", "ariaLabel": "GitHub", "external": true },
+        { "href": "mailto:dev@jand.ro", "icon": "account_circle", "ariaLabel": "Contact" }
+      ]
+    },
+    "aria": {
+      "close": "Close",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
+    },
+    "album": {
+      "tagsSidebarSubtitle": "Filter albums",
+      "allAlbums": "All albums",
+      "noAlbumsForTag": "No albums with this tag yet.",
+      "breadcrumbList": "Albums"
+    },
+    "post": {
+      "tocTitle": "On this page",
+      "tocSubtitle": "Sections",
+      "tagsSidebarTitle": "Browse by tag",
+      "tagsSidebarSubtitle": "Filter posts",
+      "tagsNavLabel": "Tags",
+      "allPosts": "All posts",
+      "noPostsForTag": "No posts with this tag yet.",
+      "created": "Created",
+      "breadcrumbList": "Posts",
+      "author": "Author",
+      "readingTimeLabel": "Reading Time",
+      "relatedArtifacts": "Related Artifacts"
+    },
+    "lightbox": {
+      "dialogLabel": "Image viewer",
+      "captionLabel": "Caption",
+      "locationLabel": "Location",
+      "exifLabel": "EXIF"
+    },
+    "newsletter": {
+      "emailLabel": "Email",
+      "emailPlaceholder": "Your email address",
+      "subscribe": "Subscribe"
+    },
+    "home": {
+      "scrollHintSr": "Scroll down for more content"
+    },
+    "footer": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "rightsReserved": "ALL RIGHTS RESERVED."
+    }
+  }
+}

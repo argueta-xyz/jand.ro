@@ -1,0 +1,44 @@
+{% set listSection = listSection | default('posts') %}
+<div class="p-8 bg-surface-container-low border border-outline-variant/20">
+    <h4 class="font-serif italic text-xl text-on-surface mb-2">{{ site.ui.post.tagsSidebarTitle }}</h4>
+    <p class="font-mono text-[10px] tracking-widest text-on-surface-variant uppercase mb-6">
+        {% if listSection == 'albums' %}
+            {{ site.ui.album.tagsSidebarSubtitle }}
+        {% else %}
+            {{ site.ui.post.tagsSidebarSubtitle }}
+        {% endif %}
+    </p>
+    <nav class="flex flex-col gap-4" aria-label="{{ site.ui.post.tagsNavLabel }}">
+        {% if listSection == 'albums' %}
+            <a href="/albums/"
+                class="font-serif italic text-base transition-colors {% if not activeTagSlug %}text-secondary flex items-center gap-3{%
+                    else %}text-on-surface-variant hover:text-on-surface{% endif %}">
+                {% if not activeTagSlug %}
+                    <span class="w-1.5 h-1.5 bg-secondary shrink-0"></span>
+                {% endif %}
+                {{ site.ui.album.allAlbums }}</a>
+            {% for t in collections.albumTagIndex %}
+                <a href="/albums/tags/{{ t.slug }}/" class="font-serif italic text-base transition-colors {% if activeTagSlug == t.slug %}text-secondary flex items-center gap-3{% else %}text-on-surface-variant hover:text-on-surface{% endif %}" {% if activeTagSlug == t.slug %} aria-current="page" {% endif %}>
+                    {% if activeTagSlug == t.slug %}
+                        <span class="w-1.5 h-1.5 bg-secondary shrink-0"></span>
+                    {% endif %}
+                    {{ t.name }}</a>
+            {% endfor %}
+        {% else %}
+            <a href="/posts/"
+                class="font-serif italic text-base transition-colors {% if not activeTagSlug %}text-secondary flex items-center gap-3{%
+                    else %}text-on-surface-variant hover:text-on-surface{% endif %}">
+                {% if not activeTagSlug %}
+                    <span class="w-1.5 h-1.5 bg-secondary shrink-0"></span>
+                {% endif %}
+                {{ site.ui.post.allPosts }}</a>
+            {% for t in collections.postTagIndex %}
+                <a href="/posts/tags/{{ t.slug }}/" class="font-serif italic text-base transition-colors {% if activeTagSlug == t.slug %}text-secondary flex items-center gap-3{% else %}text-on-surface-variant hover:text-on-surface{% endif %}" {% if activeTagSlug == t.slug %} aria-current="page" {% endif %}>
+                    {% if activeTagSlug == t.slug %}
+                        <span class="w-1.5 h-1.5 bg-secondary shrink-0"></span>
+                    {% endif %}
+                    {{ t.name }}</a>
+            {% endfor %}
+        {% endif %}
+    </nav>
+</div>

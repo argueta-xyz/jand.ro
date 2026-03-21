@@ -1,0 +1,62 @@
+---
+layout: layouts/base.njk
+bodyClass: font-body selection:bg-secondary selection:text-on-secondary bg-background text-on-background
+---
+
+{% set listSection = listSection | default('posts') %}
+{% include "components/top-nav.njk" %}
+<div class="flex flex-1 flex-col w-full min-h-0">
+    {% set activeTagSlug = tag.slug if tag else '' %}
+    {% if listSection == 'albums' %}
+        {% if tag %}
+            {% set listAlbums = collections.albums | albumsWithTagSlug(tag.slug) %}
+        {% else %}
+            {% set listAlbums = collections.albums %}
+        {% endif %}
+    {% else %}
+        {% if tag %}
+            {% set listPosts = collections.posts | postsWithTagSlug(tag.slug) %}
+        {% else %}
+            {% set listPosts = collections.posts %}
+        {% endif %}
+    {% endif %}
+    <main class="flex-1 pt-40 pb-24 px-8 lg:px-12 max-w-[1440px] mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-24">
+            <aside class="hidden lg:block lg:col-span-3">
+                <div class="sticky top-40 flex flex-col gap-8">
+                    {% include "components/post-tags-sidebar.njk" %}
+                </div>
+            </aside>
+            <div class="lg:col-span-9">
+                <h1 class="font-headline italic text-5xl md:text-6xl text-on-surface mb-4">{{ title }}</h1>
+                {% if content %}
+                    <div class="prose max-w-2xl mb-12">{{ content | safe }}</div>
+                {% endif %}
+                {% if listSection == 'albums' %}
+                    {% if listAlbums | length %}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {% for album in listAlbums %}
+                                {% set item = album %}
+                                {% include "components/preview-card.njk" %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-on-surface-variant">{{ site.ui.album.noAlbumsForTag }}</p>
+                    {% endif %}
+                {% else %}
+                    {% if listPosts | length %}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {% for post in listPosts %}
+                                {% set item = post %}
+                                {% include "components/preview-card.njk" %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-on-surface-variant">{{ site.ui.post.noPostsForTag }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    {% include "components/footer.njk" %}
+</div>

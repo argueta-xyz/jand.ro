@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+bodyClass: bg-background text-on-background selection:bg-secondary selection:text-on-secondary font-body
+---
+
+{% include "components/top-nav.njk" %}
+<div class="flex flex-1 flex-col w-full min-h-0">
+    <main class="flex-1 pt-40 pb-24 px-8 lg:px-12 max-w-[1440px] mx-auto w-full">
+        <nav
+            class="flex flex-wrap items-center gap-4 mb-10 text-[9px] font-mono uppercase tracking-[0.4em] text-outline-variant"
+            aria-label="Breadcrumb">
+            <a class="hover:text-secondary transition-colors" href="/albums/">{{ site.ui.album.breadcrumbList }}</a>
+            {% for tag in tags %}
+                <span class="w-4 h-px bg-outline-variant/30"></span>
+                <a class="hover:text-secondary transition-colors text-outline-variant" href="/albums/tags/{{ tag | tagSlug }}/">{{ tag }}</a>
+            {% endfor %}
+        </nav>
+        <h1 class="font-headline italic text-5xl md:text-6xl text-on-surface mb-6">{{ title }}</h1>
+        {% if date %}
+            <p class="font-label text-[10px] text-on-surface-variant tracking-[0.2em] uppercase mb-10">{{ date | postDate }}</p>
+        {% endif %}
+        {% if content %}
+            <div class="prose max-w-2xl mb-12">{{ content | safe }}</div>
+        {% endif %}
+        {% if (photos | default([])) | length %}
+            <script type="application/json" id="album-lightbox-series">{{ photos | lightboxSeriesJson | safe }}</script>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                {% for photo in photos %}
+                    <button type="button" class="js-album-lightbox-open group relative aspect-square overflow-hidden bg-surface-container-low border-0 p-0 cursor-pointer w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary" data-lightbox-index="{{ loop.index0 }}" data-lightbox="{{ photo | lightboxPayload }}">
+                        <img src="{{ photo.url }}" alt="{{ photo.alt | default('') }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" loading="lazy" width="800" height="800"/>
+                    </button>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </main>
+    {% include "components/footer.njk" %}
+</div>
+{% include "components/lightbox.njk" %}
