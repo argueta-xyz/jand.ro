@@ -1,16 +1,16 @@
-<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-outline-variant/10">
-    <div class="grid grid-cols-[1fr_auto_1fr] items-center px-12 py-6 w-full max-w-[1920px] mx-auto gap-4">
-        <a href="/" class="text-2xl text-on-surface justify-self-start min-w-0">{% include "components/wordmark.njk" %}</a>
-        <div class="hidden md:flex justify-center items-center gap-12 flex-wrap justify-self-center">
-            <a href="/albums/" class="font-serif italic text-lg transition-colors duration-300 {% if page.url | navIsActive('albums') %}text-on-surface border-b border-primary pb-1{% else %}text-outline-variant font-medium hover:text-secondary{% endif %}" {% if page.url | navIsActive('albums') %} aria-current="page" {% endif %}>{{ site.ui.nav.albums }}</a>
-            <a href="/posts/" class="font-serif italic text-lg transition-colors duration-300 {% if page.url | navIsActive('posts') %}text-on-surface border-b border-primary pb-1{% else %}text-outline-variant font-medium hover:text-secondary{% endif %}" {% if page.url | navIsActive('posts') %} aria-current="page" {% endif %}>{{ site.ui.nav.posts }}</a>
+<nav class="{{ uiClasses.topNav.bar }}">
+    <div class="{{ uiClasses.topNav.inner }}">
+        <a href="/" class="{{ uiClasses.topNav.home }}">{% include "components/wordmark.njk" %}</a>
+        <div class="{{ uiClasses.topNav.center }}">
+            <a href="/albums/" class="{{ uiClasses.topNav.primaryBase }} {% if page.url | navIsActive('albums') %}{{ uiClasses.topNav.primaryActive }}{% else %}{{ uiClasses.topNav.primaryIdle }}{% endif %}" {% if page.url | navIsActive('albums') %} aria-current="page" {% endif %}>{{ site.ui.nav.albums }}</a>
+            <a href="/posts/" class="{{ uiClasses.topNav.primaryBase }} {% if page.url | navIsActive('posts') %}{{ uiClasses.topNav.primaryActive }}{% else %}{{ uiClasses.topNav.primaryIdle }}{% endif %}" {% if page.url | navIsActive('posts') %} aria-current="page" {% endif %}>{{ site.ui.nav.posts }}</a>
             {% for link in site.ui.nav.external %}
-                <a href="{{ link.href }}" target="_blank" rel="noopener noreferrer" class="text-outline-variant font-medium hover:text-secondary transition-colors duration-300 font-serif italic text-lg">{{ link.label }}</a>
+                <a href="{{ link.href }}" target="_blank" rel="noopener noreferrer" class="{{ uiClasses.topNav.external }}">{{ link.label }}</a>
             {% endfor %}
         </div>
-        <div class="flex items-center gap-6 justify-self-end">
+        <div class="{{ uiClasses.topNav.actions }}">
             {% for action in site.ui.nav.actions %}
-                <a href="{{ action.href }}" class="text-primary hover:text-secondary transition-colors scale-95 duration-200" aria-label="{{ action.ariaLabel }}"{% if action.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+                <a href="{{ action.href }}" class="{{ uiClasses.topNav.iconLink }}" aria-label="{{ action.ariaLabel }}" {% if action.external %} target="_blank" rel="noopener noreferrer" {% endif %}>
                     <span class="material-symbols-outlined">{{ action.icon }}</span>
                 </a>
             {% endfor %}

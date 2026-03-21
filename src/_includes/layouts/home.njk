@@ -3,18 +3,15 @@ layout: layouts/base.njk
 ---
 
 {% include "components/top-nav.njk" %}
-<div class="flex flex-1 flex-col w-full min-h-0">
-    <main class="flex-1 w-full max-w-[1440px] mx-auto pt-40 px-12">
-        <div class="relative mb-32 flex min-h-[calc(100dvh-10rem)] max-w-5xl flex-col justify-center">
+<div class="{{ uiClasses.layout.pageShell }}">
+    <main class="{{ uiClasses.layout.mainHome }}">
+        <div class="{{ uiClasses.home.heroStage }}">
             <header>
-                <h1 class="font-headline italic text-7xl md:text-8xl tracking-tight leading-[1.1] mb-10 text-on-surface">{{ site.hero_title | safe }}</h1>
-                <p class="font-headline italic text-2xl text-on-surface-variant/80 max-w-2xl leading-relaxed">{{ site.description }}</p>
+                <h1 class="{{ uiClasses.home.heroTitle }}">{{ site.hero_title | safe }}</h1>
+                <p class="{{ uiClasses.home.heroDesc }}">{{ site.description }}</p>
             </header>
             <p class="sr-only">{{ site.ui.home.scrollHintSr }}</p>
-            <div
-                class="pointer-events-none absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1
-                    text-on-surface-variant/50"
-                aria-hidden="true">
+            <div class="{{ uiClasses.home.scrollHint }}" aria-hidden="true">
                 <span class="material-symbols-outlined text-3xl animate-bounce">expand_more</span>
             </div>
         </div>
@@ -23,7 +20,7 @@ layout: layouts/base.njk
             {% set post = collections.posts[0] %}
             {% include "components/article-preview-featured.njk" %}
             {% if postCount > 1 %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="{{ uiClasses.grid.cards }}">
                     {% for post in collections.posts %}
                         {% if loop.index0 >= 1 %}
                             {% set item = post %}

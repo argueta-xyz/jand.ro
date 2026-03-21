@@ -3,86 +3,81 @@ layout: layouts/base.njk
 bodyClass: bg-background text-on-background selection:bg-secondary selection:text-on-secondary font-body
 ---
 
+{% import "macros/ui.njk" as ui with context %}
 {% include "components/top-nav.njk" %}
-<div class="flex flex-1 flex-col w-full min-h-0">
-    <main class="flex-1 pt-40 pb-24 px-8 lg:px-12 max-w-[1440px] mx-auto w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-24">
-            <aside class="hidden lg:block lg:col-span-3">
-                <div class="sticky top-40 flex flex-col gap-8">
+<div class="{{ uiClasses.layout.pageShell }}">
+    <main class="{{ uiClasses.layout.mainMax }}">
+        <div class="{{ uiClasses.layout.grid12 }}">
+            <aside class="{{ uiClasses.sidebar.aside }}">
+                <div class="{{ uiClasses.sidebar.sticky }}">
                     {% if toc | length %}
-                        <div class="p-8 bg-surface-container-low border border-outline-variant/20">
-                            <h4 class="font-serif italic text-xl text-on-surface mb-2">{{ site.ui.post.tocTitle }}</h4>
-                            <p class="font-mono text-[10px] tracking-widest text-on-surface-variant uppercase mb-6">{{ site.ui.post.tocSubtitle }}</p>
-                            <nav class="flex flex-col gap-4" aria-label="{{ site.ui.post.tocTitle }}">
+                        <div class="{{ uiClasses.sidebar.card }}">
+                            <h4 class="{{ uiClasses.sidebar.cardTitle }}">{{ site.ui.post.tocTitle }}</h4>
+                            <p class="{{ uiClasses.sidebar.cardSubtitle }}">{{ site.ui.post.tocSubtitle }}</p>
+                            <nav class="{{ uiClasses.sidebar.navStack }}" aria-label="{{ site.ui.post.tocTitle }}">
                                 {% for item in toc %}
-                                    <a class="{% if loop.first %}text-secondary flex items-center gap-3{% else %}text-on-surface-variant hover:text-on-surface{% endif %} font-serif italic text-base transition-colors {% if item.level > 2 %}pl-4{% endif %}" href="#{{ item.slug }}">
-                                        {% if loop.first %}
-                                            <span class="w-1.5 h-1.5 bg-secondary shrink-0"></span>
-                                        {% endif %}
-                                        {{ item.text }}</a>
+                                    {{ ui.tocLink(loop.first, item.level > 2, item.slug, item.text) }}
                                 {% endfor %}
                             </nav>
                         </div>
                     {% endif %}
-                    <div class="flex flex-col gap-4">
-                        <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-outline-variant">{{ site.ui.post.created }}</span>
-                        <span class="font-serif text-sm italic text-primary">{{ date | postDate }}</span>
+                    <div class="{{ uiClasses.post.sidebar.metaCol }}">
+                        <span class="{{ uiClasses.post.sidebar.createdLabel }}">{{ site.ui.post.created }}</span>
+                        <span class="{{ uiClasses.post.sidebar.dateLine }}">{{ date | postDate }}</span>
                     </div>
                 </div>
             </aside>
-            <article class="lg:col-span-9 max-w-2xl">
-                <nav
-                    class="flex flex-wrap items-center gap-4 mb-16 text-[9px] font-mono uppercase tracking-[0.4em] text-outline-variant"
-                    aria-label="Breadcrumb">
-                    <a class="hover:text-secondary transition-colors" href="/posts/">{{ site.ui.post.breadcrumbList }}</a>
+            <article class="{{ uiClasses.layout.contentArticle }}">
+                <nav class="{{ uiClasses.post.breadcrumbNav }}" aria-label="Breadcrumb">
+                    <a class="{{ uiClasses.breadcrumb.link }}" href="/posts/">{{ site.ui.post.breadcrumbList }}</a>
                     {% for tag in tags %}
-                        <span class="w-4 h-px bg-outline-variant/30"></span>
-                        <a class="hover:text-secondary transition-colors text-outline-variant" href="/posts/tags/{{ tag | tagSlug }}/">{{ tag }}</a>
+                        <span class="{{ uiClasses.breadcrumb.sep }}"></span>
+                        <a class="{{ uiClasses.breadcrumb.tagLink }}" href="/posts/tags/{{ tag | tagSlug }}/">{{ tag }}</a>
                     {% endfor %}
                 </nav>
                 {% if heroImage %}
-                    <div class="not-prose mb-12 aspect-[16/9] w-full overflow-hidden bg-surface-container-low">
-                        <img src="{{ heroImage }}" alt="" class="w-full h-full object-cover" width="1600" height="900"/>
+                    <div class="{{ uiClasses.post.hero.wrap }}">
+                        <img src="{{ heroImage }}" alt="" class="{{ uiClasses.post.hero.img }}" width="1600" height="900"/>
                     </div>
                 {% endif %}
                 <div class="prose">
                     <h1>{{ title }}</h1>
-                    <div class="flex items-center gap-6 mb-16 not-prose">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-surface-container-highest overflow-hidden grayscale">
+                    <div class="{{ uiClasses.post.byline.row }}">
+                        <div class="{{ uiClasses.post.byline.avatarWrap }}">
+                            <div class="{{ uiClasses.post.byline.avatarBox }}">
                                 {% if authorAvatar %}
-                                    <img alt="" class="w-full h-full object-cover opacity-80" src="{{ authorAvatar }}" width="40" height="40"/>
+                                    <img alt="" class="{{ uiClasses.post.byline.avatarImg }}" src="{{ authorAvatar }}" width="40" height="40"/>
                                 {% else %}
-                                    <img alt="" class="w-full h-full object-cover opacity-80" src="{{ site.defaults.authorAvatar }}" width="40" height="40"/>
+                                    <img alt="" class="{{ uiClasses.post.byline.avatarImg }}" src="{{ site.defaults.authorAvatar }}" width="40" height="40"/>
                                 {% endif %}
                             </div>
-                            <div class="flex flex-col">
-                                <span class="font-mono text-[9px] tracking-widest text-outline-variant uppercase">{{ site.ui.post.author }}</span>
-                                <span class="font-serif italic text-sm text-on-surface">{{ author }}</span>
+                            <div class="{{ uiClasses.post.byline.textCol }}">
+                                <span class="{{ uiClasses.post.byline.metaLabel }}">{{ site.ui.post.author }}</span>
+                                <span class="{{ uiClasses.post.byline.authorName }}">{{ author }}</span>
                             </div>
                         </div>
-                        <div class="h-8 w-px bg-outline-variant/20"></div>
-                        <div class="flex flex-col">
-                            <span class="font-mono text-[9px] tracking-widest text-outline-variant uppercase">{{ site.ui.post.readingTimeLabel }}</span>
-                            <span class="font-serif italic text-sm text-primary">{{ readingTime }}</span>
+                        <div class="{{ uiClasses.post.byline.divider }}"></div>
+                        <div class="{{ uiClasses.post.byline.textCol }}">
+                            <span class="{{ uiClasses.post.byline.metaLabel }}">{{ site.ui.post.readingTimeLabel }}</span>
+                            <span class="{{ uiClasses.post.byline.readingValue }}">{{ readingTime }}</span>
                         </div>
                     </div>
                     {{ content | safe }}
                 </div>
                 {% set related = collections.posts | takeRelated(page.url) %}
                 {% if related | length > 0 %}
-                    <section class="mt-32 pt-16 border-t border-outline-variant/20 not-prose">
-                        <h3 class="font-serif italic text-3xl text-on-surface mb-12">{{ site.ui.post.relatedArtifacts }}</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <section class="{{ uiClasses.post.related.section }}">
+                        <h3 class="{{ uiClasses.post.related.title }}">{{ site.ui.post.relatedArtifacts }}</h3>
+                        <div class="{{ uiClasses.post.related.grid }}">
                             {% for p in related %}
-                                <div class="group cursor-pointer">
-                                    <a href="{{ p.url }}" class="block text-inherit no-underline">
-                                        <div class="aspect-[4/5] bg-surface-container-low overflow-hidden mb-6 relative">
-                                            <img alt="" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" src="{{ p.data.heroImage }}" width="400" height="500"/>
-                                            <div class="absolute inset-0 bg-background/40 group-hover:bg-transparent transition-colors"></div>
+                                <div class="{{ uiClasses.post.related.card }}">
+                                    <a href="{{ p.url }}" class="{{ uiClasses.post.related.link }}">
+                                        <div class="{{ uiClasses.post.related.thumb }}">
+                                            <img alt="" class="{{ uiClasses.post.related.img }}" src="{{ p.data.heroImage }}" width="400" height="500"/>
+                                            <div class="{{ uiClasses.post.related.overlay }}"></div>
                                         </div>
-                                        <span class="font-mono text-[9px] tracking-[0.4em] uppercase text-secondary mb-3 block">{{ p.data.tags[0] }}</span>
-                                        <h4 class="font-serif italic text-xl text-on-surface leading-tight group-hover:text-secondary transition-colors">{{ p.data.title }}</h4>
+                                        <span class="{{ uiClasses.post.related.tag }}">{{ p.data.tags[0] }}</span>
+                                        <h4 class="{{ uiClasses.post.related.cardTitle }}">{{ p.data.title }}</h4>
                                     </a>
                                 </div>
                             {% endfor %}
