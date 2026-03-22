@@ -6,5 +6,5 @@ pagination:
 permalink: "/posts/tags/{{ tag.slug }}/index.html"
 layout: layouts/post-list.njk
 eleventyComputed:
-  title: "Posts tagged “{{ tag.name }}”"
+  title: "{{ tag.name }}"
 ---

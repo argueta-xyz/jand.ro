@@ -1,15 +1,10 @@
 {% import "macros/ui.njk" as ui with context %}
 {% set listSection = listSection | default('posts') %}
+{% set sb = site.ui.sidebar[listSection] %}
 <div class="{{ uiClasses.sidebar.card }}">
-    <h4 class="{{ uiClasses.sidebar.cardTitle }}">{{ site.ui.post.tagsSidebarTitle }}</h4>
-    <p class="{{ uiClasses.sidebar.cardSubtitle }}">
-        {% if listSection == 'albums' %}
-            {{ site.ui.album.tagsSidebarSubtitle }}
-        {% else %}
-            {{ site.ui.post.tagsSidebarSubtitle }}
-        {% endif %}
-    </p>
-    <nav class="{{ uiClasses.sidebar.navStack }}" aria-label="{{ site.ui.post.tagsNavLabel }}">
+    <h4 class="{{ uiClasses.sidebar.cardTitle }}">{{ sb.title }}</h4>
+    <p class="{{ uiClasses.sidebar.cardSubtitle }}">{{ sb.subtitle }}</p>
+    <nav class="{{ uiClasses.sidebar.navStack }}" aria-label="{{ sb.navAriaLabel }}">
         {% if listSection == 'albums' %}
             {{ ui.sideNavLink(not activeTagSlug, '/albums/', site.ui.album.allAlbums) }}
             {% for t in collections.albumTagIndex %}

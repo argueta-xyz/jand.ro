@@ -1,14 +1,13 @@
+{% import "macros/icon.njk" as uiIcon with context %}
 <div id="album-lightbox" class="fixed inset-0 z-[100] opacity-0 invisible pointer-events-none transition-opacity duration-200 ease-out" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ site.ui.lightbox.dialogLabel }}">
   <button type="button" id="album-lightbox-backdrop" class="absolute inset-0 z-0 w-full h-full border-0 bg-black/50 backdrop-blur-md p-0 cursor-default" tabindex="-1" aria-label="{{ site.ui.aria.close }}"></button>
-  <div class="pointer-events-auto absolute inset-24 z-10 flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border
-      border-outline-variant/25 bg-background shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_28px_100px_-8px_rgba(0,0,0,0.85)]
-      lg:flex-row">
-    <div class="relative flex min-h-0 min-w-0 flex-1 items-center justify-center bg-surface-container-lowest p-2 sm:p-3">
+  <div class="pointer-events-auto absolute inset-2 z-10 flex min-h-0 min-w-0 max-h-full flex-col overflow-hidden rounded-lg border border-outline-variant/25 bg-background shadow-[0_28px_100px_-8px_rgba(0,0,0,0.85)] sm:inset-4 md:inset-8 lg:inset-24 lg:flex-row lg:items-stretch lg:rounded-xl">
+    <div class="relative flex min-h-0 min-w-0 flex-1 items-center justify-center bg-surface-container-lowest p-2 sm:p-3 lg:min-h-0">
       <button type="button" id="album-lightbox-prev" class="hidden absolute left-2 lg:left-4 top-1/2 z-20 -translate-y-1/2 border border-outline-variant/30 bg-background/80 p-3 text-on-surface backdrop-blur-sm hover:bg-surface-container-low pointer-events-auto" aria-label="{{ site.ui.aria.previousImage }}">
-        <span class="material-symbols-outlined text-2xl">chevron_left</span>
+        {{ uiIcon.uiIcon('chevron_left', 'h-7 w-7') }}
       </button>
       <button type="button" id="album-lightbox-next" class="hidden absolute right-2 lg:right-4 top-1/2 z-20 -translate-y-1/2 border border-outline-variant/30 bg-background/80 p-3 text-on-surface backdrop-blur-sm hover:bg-surface-container-low pointer-events-auto" aria-label="{{ site.ui.aria.nextImage }}">
-        <span class="material-symbols-outlined text-2xl">chevron_right</span>
+        {{ uiIcon.uiIcon('chevron_right', 'h-7 w-7') }}
       </button>
       <img
         id="album-lightbox-img"
@@ -17,14 +16,13 @@
     </div>
     <aside
       id="album-lightbox-aside"
-      class="flex max-h-[38vh] min-h-0 w-full shrink-0 flex-col border-t border-outline-variant/20 bg-surface-container-low
-        lg:max-h-none lg:h-auto lg:w-[min(22rem,40vw)] lg:border-l lg:border-t-0">
-      <div class="flex shrink-0 justify-end px-6 pb-2 pt-5 lg:px-8 lg:pb-3 lg:pt-7">
+      class="flex w-full max-h-[38vh] min-h-0 shrink-0 flex-col border-t border-outline-variant/20 bg-surface-container-low lg:max-h-none lg:min-h-0 lg:w-[min(22rem,40vw)] lg:self-stretch lg:border-l lg:border-t-0">
+      <div class="flex shrink-0 justify-end px-4 pb-2 pt-3 max-lg:border-b max-lg:border-outline-variant/20 sm:px-6 sm:pb-2 sm:pt-5 lg:px-8 lg:pb-3 lg:pt-7">
         <button type="button" id="album-lightbox-close" class="border border-outline-variant/25 bg-surface-container-high/90 p-2 text-on-surface transition-colors hover:bg-surface-bright" aria-label="{{ site.ui.aria.close }}">
-          <span class="material-symbols-outlined text-xl">close</span>
+          {{ uiIcon.uiIcon('close', 'h-5 w-5') }}
         </button>
       </div>
-      <div class="min-h-0 flex-1 overflow-y-auto px-6 pb-6 lg:px-8 lg:pb-8">
+      <div class="max-h-[calc(38vh-3.75rem)] overflow-y-auto border-x border-outline-variant/15 px-4 pb-4 pt-3 sm:px-5 sm:pb-5 lg:max-h-none lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:border-x-0 lg:px-8 lg:pb-8 lg:pt-2">
         <div id="album-lightbox-caption-block" class="mb-6 hidden">
           <p class="mb-2 font-label text-[9px] uppercase tracking-[0.25em] text-on-surface-variant">{{ site.ui.lightbox.captionLabel }}</p>
           <p id="album-lightbox-caption" class="font-headline text-lg italic leading-relaxed text-on-surface"></p>

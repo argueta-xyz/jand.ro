@@ -5,4 +5,4 @@ title: Albums
 permalink: /albums/
 ---
 
-Visual collections published outside the long-form chronicle.
+{{ site.ui.album.allAlbumsSubtitle }}

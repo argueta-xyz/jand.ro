@@ -2,6 +2,7 @@
 layout: layouts/base.njk
 ---
 
+{% import "macros/icon.njk" as uiIcon with context %}
 {% include "components/top-nav.njk" %}
 <div class="{{ uiClasses.layout.pageShell }}">
     <main class="{{ uiClasses.layout.mainHome }}">
@@ -11,9 +12,9 @@ layout: layouts/base.njk
                 <p class="{{ uiClasses.home.heroDesc }}">{{ site.description }}</p>
             </header>
             <p class="sr-only">{{ site.ui.home.scrollHintSr }}</p>
-            <div class="{{ uiClasses.home.scrollHint }}" aria-hidden="true">
-                <span class="material-symbols-outlined text-3xl animate-bounce">expand_more</span>
-            </div>
+        </div>
+        <div class="{{ uiClasses.home.scrollHint }}" aria-hidden="true">
+            <span class="{{ uiClasses.home.scrollHintIcon }}">{{ uiIcon.uiIcon('expand_more', 'h-9 w-9') }}</span>
         </div>
         {% set postCount = collections.posts | length %}
         {% if postCount > 0 %}

@@ -11,10 +11,11 @@ bodyClass: bg-background text-on-background selection:bg-secondary selection:tex
             <aside class="{{ uiClasses.sidebar.aside }}">
                 <div class="{{ uiClasses.sidebar.sticky }}">
                     {% if toc | length %}
+                        {% set sb = site.ui.sidebar.post %}
                         <div class="{{ uiClasses.sidebar.card }}">
-                            <h4 class="{{ uiClasses.sidebar.cardTitle }}">{{ site.ui.post.tocTitle }}</h4>
-                            <p class="{{ uiClasses.sidebar.cardSubtitle }}">{{ site.ui.post.tocSubtitle }}</p>
-                            <nav class="{{ uiClasses.sidebar.navStack }}" aria-label="{{ site.ui.post.tocTitle }}">
+                            <h4 class="{{ uiClasses.sidebar.cardTitle }}">{{ sb.title }}</h4>
+                            <p class="{{ uiClasses.sidebar.cardSubtitle }}">{{ sb.subtitle }}</p>
+                            <nav class="{{ uiClasses.sidebar.navStack }}" aria-label="{{ sb.navAriaLabel }}">
                                 {% for item in toc %}
                                     {{ ui.tocLink(loop.first, item.level > 2, item.slug, item.text) }}
                                 {% endfor %}

@@ -1,17 +1,37 @@
-<nav class="{{ uiClasses.topNav.bar }}">
+{% import "macros/icon.njk" as uiIcon with context %}
+<nav class="{{ uiClasses.topNav.bar }}" aria-label="Primary">
     <div class="{{ uiClasses.topNav.inner }}">
         <a href="/" class="{{ uiClasses.topNav.home }}">{% include "components/wordmark.njk" %}</a>
         <div class="{{ uiClasses.topNav.center }}">
-            <a href="/albums/" class="{{ uiClasses.topNav.primaryBase }} {% if page.url | navIsActive('albums') %}{{ uiClasses.topNav.primaryActive }}{% else %}{{ uiClasses.topNav.primaryIdle }}{% endif %}" {% if page.url | navIsActive('albums') %} aria-current="page" {% endif %}>{{ site.ui.nav.albums }}</a>
-            <a href="/posts/" class="{{ uiClasses.topNav.primaryBase }} {% if page.url | navIsActive('posts') %}{{ uiClasses.topNav.primaryActive }}{% else %}{{ uiClasses.topNav.primaryIdle }}{% endif %}" {% if page.url | navIsActive('posts') %} aria-current="page" {% endif %}>{{ site.ui.nav.posts }}</a>
+            {% for item in site.ui.nav.primary %}
+                {% set navActive = page.url | navIsActive(item.section) %}
+                <a href="{{ item.href }}" class="{{ uiClasses.topNav.primaryBase }} {% if navActive %}{{ uiClasses.topNav.primaryActive }}{% else %}{{ uiClasses.topNav.primaryIdle }}{% endif %}" {% if navActive %} aria-current="page" {% endif %}>{{ item.label }}</a>
+            {% endfor %}
             {% for link in site.ui.nav.external %}
                 <a href="{{ link.href }}" target="_blank" rel="noopener noreferrer" class="{{ uiClasses.topNav.external }}">{{ link.label }}</a>
             {% endfor %}
         </div>
+        <div class="{{ uiClasses.topNav.mobileMenu }}">
+            <details class="{{ uiClasses.topNav.mobileDetails }}">
+                <summary class="{{ uiClasses.topNav.mobileSummary }}">
+                    <span>{{ page.url | navActivePrimaryLabel(site.ui.nav.primary, site.ui.nav.mobileMenuFallback) }}</span>
+                    {{ uiIcon.uiIcon('expand_more', 'top-nav-mobile-chevron h-5 w-5 shrink-0 text-on-surface-variant') }}
+                </summary>
+                <div class="{{ uiClasses.topNav.mobilePanel }}">
+                    {% for item in site.ui.nav.primary %}
+                        {% set navActive = page.url | navIsActive(item.section) %}
+                        <a href="{{ item.href }}" class="{{ uiClasses.topNav.mobileLink }} {% if navActive %}{{ uiClasses.topNav.mobileLinkActive }}{% else %}{{ uiClasses.topNav.mobileLinkIdle }}{% endif %}" {% if navActive %} aria-current="page" {% endif %}>{{ item.label }}</a>
+                    {% endfor %}
+                    {% for link in site.ui.nav.external %}
+                        <a href="{{ link.href }}" target="_blank" rel="noopener noreferrer" class="{{ uiClasses.topNav.mobileExternal }}">{{ link.label }}</a>
+                    {% endfor %}
+                </div>
+            </details>
+        </div>
         <div class="{{ uiClasses.topNav.actions }}">
             {% for action in site.ui.nav.actions %}
                 <a href="{{ action.href }}" class="{{ uiClasses.topNav.iconLink }}" aria-label="{{ action.ariaLabel }}" {% if action.external %} target="_blank" rel="noopener noreferrer" {% endif %}>
-                    <span class="material-symbols-outlined">{{ action.icon }}</span>
+                    {{ uiIcon.uiIcon(action.icon, 'h-6 w-6') }}
                 </a>
             {% endfor %}
         </div>

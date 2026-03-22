@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Copy fonts",
+      "type": "npm",
+      "script": "fonts:copy",
+      "problemMatcher": [],
+      "presentation": { "reveal": "silent" }
+    },
+    {
+      "label": "CSS build",
+      "type": "npm",
+      "script": "css:build",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "CSS watch",
+      "type": "npm",
+      "script": "css:watch",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": { "reveal": "silent" }
+    },
+    {
+      "label": "Eleventy build",
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Eleventy build (site only)",
+      "type": "shell",
+      "command": "npx eleventy",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Dev: CSS watch + Eleventy serve",
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": "none"
+    }
+  ]
+}

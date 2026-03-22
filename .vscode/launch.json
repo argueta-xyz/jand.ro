@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Dev: Eleventy + CSS watch",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Build: CSS + Eleventy",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run build"
+    }
+  ]
+}

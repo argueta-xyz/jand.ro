@@ -5,4 +5,4 @@ permalink: /posts/
 eleventyExcludeFromCollections: true
 ---
 
-Chronicles and essays from the archive.
+{{ site.ui.post.allPostsSubtitle }}

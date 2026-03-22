@@ -1,0 +1,61 @@
+{% macro uiIcon(name, className = 'h-6 w-6') %}
+    {% if name == 'code_blocks' %}
+        <svg
+            class="inline-block shrink-0 {{ className }}"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22 12l-4.75 5.25m-10.5 0L2.25 12l4.75-5.25"/> </svg>
+    {% elif name == 'account_circle' %}
+        <svg
+            class="inline-block shrink-0 {{ className }}"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676
+                    0-5.216-.584-7.499-1.632z"/> </svg>
+    {% elif name == 'expand_more' %}
+        <svg
+            class="inline-block shrink-0 {{ className }}"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/> </svg>
+    {% elif name == 'chevron_left' %}
+        <svg
+            class="inline-block shrink-0 {{ className }}"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/> </svg>
+    {% elif name == 'chevron_right' %}
+        <svg
+            class="inline-block shrink-0 {{ className }}"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5L15.75 12l-7.5 7.5"/> </svg>
+    {% elif name == 'close' %}
+        <svg
+            class="inline-block shrink-0 {{ className }}"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/> </svg>
+    {% endif %}
+{% endmacro %}

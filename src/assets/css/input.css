@@ -1,0 +1,222 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../fonts/inter-latin-wght-italic.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url('../fonts/space-grotesk-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('../fonts/newsreader-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('../fonts/newsreader-latin-wght-italic.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Chivo Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../fonts/chivo-mono-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Chivo Mono';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../fonts/chivo-mono-latin-wght-italic.woff2') format('woff2-variations');
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .wordmark-accent-glow {
+    box-shadow:
+      0 0 10px theme('colors.secondary / 55%'),
+      0 0 28px theme('colors.secondary / 28%');
+  }
+
+  .hero-secondary-glow {
+    text-shadow:
+      0 0 12px theme('colors.secondary / 50%'),
+      0 0 32px theme('colors.secondary / 32%'),
+      0 0 48px theme('colors.secondary / 18%');
+  }
+
+  .hero-tertiary-glow {
+    text-shadow:
+      0 0 12px theme('colors.tertiary / 50%'),
+      0 0 32px theme('colors.tertiary / 32%'),
+      0 0 48px theme('colors.tertiary / 18%');
+  }
+}
+
+.prose h1 {
+  font-family: 'Newsreader', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+  color: theme('colors.on-background');
+}
+
+.prose h2 {
+  font-family: 'Newsreader', serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+  color: theme('colors.on-background');
+  border-bottom: 1px solid theme('colors.outline-variant / 20%');
+  padding-bottom: 0.5rem;
+}
+
+.prose h3 {
+  font-family: 'Newsreader', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: theme('colors.primary');
+}
+
+.prose p {
+  font-family: 'Newsreader', serif;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: theme('colors.on-background / 80%');
+}
+
+.prose blockquote {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  border-left: 2px solid theme('colors.secondary');
+  padding: 2rem 3rem;
+  margin: 4rem 0;
+  background-color: theme('colors.surface-container-low');
+  color: theme('colors.on-background');
+}
+
+.prose code {
+  font-family: 'Chivo Mono', ui-monospace, monospace;
+  font-size: 0.9em;
+  background-color: theme('colors.surface-container-high');
+  padding: 0.2rem 0.4rem;
+  color: theme('colors.secondary');
+}
+
+.prose pre {
+  background-color: theme('colors.surface-container-lowest');
+  color: theme('colors.on-surface-variant');
+  padding: 2rem;
+  overflow-x: auto;
+  margin: 3rem 0;
+  border: 1px solid theme('colors.outline-variant / 30%');
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: 0.875rem;
+}
+
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 2rem;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+  font-family: 'Newsreader', serif;
+  font-size: 1.15rem;
+  color: theme('colors.on-background / 70%');
+}
+
+.prose ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: theme('colors.secondary');
+  font-weight: bold;
+}
+
+.selection\:bg-secondary ::selection {
+  background-color: theme('colors.secondary');
+  color: theme('colors.on-secondary');
+}
+
+body {
+  background-color: theme('colors.background');
+  color: theme('colors.on-background');
+  -webkit-font-smoothing: antialiased;
+}
+
+.top-nav-mobile summary {
+  list-style: none;
+}
+
+.top-nav-mobile summary::-webkit-details-marker {
+  display: none;
+}
+
+.top-nav-mobile-chevron {
+  transition: transform 0.25s ease;
+}
+
+.top-nav-mobile details[open] .top-nav-mobile-chevron {
+  transform: rotate(180deg);
+}
+
+.home-scroll-hint-perspective {
+  perspective: 90px;
+}
+
+.home-scroll-hint-spin {
+  display: inline-block;
+  transform-style: preserve-3d;
+  animation: home-scroll-hint-y 2.6s linear infinite;
+}
+
+@keyframes home-scroll-hint-y {
+  to {
+    transform: rotateY(360deg);
+  }
+}

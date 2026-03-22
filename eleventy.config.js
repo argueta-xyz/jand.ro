@@ -1,32 +1,33 @@
-const { buildMarkdownForPosts } = require('./src/_utils/post-markdown.js');
+const {buildMarkdownForPosts} = require('./src/_utils/post-markdown.js');
 
 function tagSlug(name) {
   return String(name)
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
 }
 
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPassthroughCopy({'src/assets': 'assets'});
 
   eleventyConfig.setLibrary('md', buildMarkdownForPosts());
 
   eleventyConfig.addGlobalData('currentYear', () => new Date().getFullYear());
 
-  eleventyConfig.addCollection('posts', (collectionApi) =>
-    collectionApi
-      .getFilteredByGlob('src/posts/*.md')
-      .filter((item) => item.data.layout === 'layouts/post.njk')
-      .sort((a, b) => b.date - a.date),
+  eleventyConfig.addCollection(
+      'posts',
+      (collectionApi) =>
+          collectionApi.getFilteredByGlob('src/posts/*.md')
+              .filter((item) => item.data.layout === 'layouts/post.njk')
+              .sort((a, b) => b.date - a.date),
   );
 
   eleventyConfig.addCollection('postTagIndex', (collectionApi) => {
     const bySlug = new Map();
-    const postItems = collectionApi
-      .getFilteredByGlob('src/posts/*.md')
-      .filter((item) => item.data.layout === 'layouts/post.njk');
+    const postItems =
+        collectionApi.getFilteredByGlob('src/posts/*.md')
+            .filter((item) => item.data.layout === 'layouts/post.njk');
     postItems.forEach((item) => {
       const tags = item.data.tags;
       if (!Array.isArray(tags)) return;
@@ -35,24 +36,26 @@ module.exports = function (eleventyConfig) {
         if (!name) return;
         const slug = tagSlug(name);
         if (!slug) return;
-        if (!bySlug.has(slug)) bySlug.set(slug, { slug, name });
+        if (!bySlug.has(slug)) bySlug.set(slug, {slug, name});
       });
     });
-    return Array.from(bySlug.values()).sort((a, b) => a.name.localeCompare(b.name));
+    return Array.from(bySlug.values())
+        .sort((a, b) => a.name.localeCompare(b.name));
   });
 
-  eleventyConfig.addCollection('albums', (collectionApi) =>
-    collectionApi
-      .getFilteredByGlob('**/albums/**/*.md')
-      .filter((item) => item.data.layout === 'layouts/album.njk')
-      .sort((a, b) => b.date - a.date),
+  eleventyConfig.addCollection(
+      'albums',
+      (collectionApi) =>
+          collectionApi.getFilteredByGlob('**/albums/**/*.md')
+              .filter((item) => item.data.layout === 'layouts/album.njk')
+              .sort((a, b) => b.date - a.date),
   );
 
   eleventyConfig.addCollection('albumTagIndex', (collectionApi) => {
     const bySlug = new Map();
-    const albumItems = collectionApi
-      .getFilteredByGlob('**/albums/**/*.md')
-      .filter((item) => item.data.layout === 'layouts/album.njk');
+    const albumItems =
+        collectionApi.getFilteredByGlob('**/albums/**/*.md')
+            .filter((item) => item.data.layout === 'layouts/album.njk');
     albumItems.forEach((item) => {
       const tags = item.data.tags;
       if (!Array.isArray(tags)) return;
@@ -61,16 +64,19 @@ module.exports = function (eleventyConfig) {
         if (!name) return;
         const slug = tagSlug(name);
         if (!slug) return;
-        if (!bySlug.has(slug)) bySlug.set(slug, { slug, name });
+        if (!bySlug.has(slug)) bySlug.set(slug, {slug, name});
       });
     });
-    return Array.from(bySlug.values()).sort((a, b) => a.name.localeCompare(b.name));
+    return Array.from(bySlug.values())
+        .sort((a, b) => a.name.localeCompare(b.name));
   });
 
   function photoToLightboxPayload(photo) {
     if (!photo || typeof photo !== 'object') return null;
-    const exif =
-      photo.exif && typeof photo.exif === 'object' && Object.keys(photo.exif).length ? photo.exif : null;
+    const exif = photo.exif && typeof photo.exif === 'object' &&
+            Object.keys(photo.exif).length ?
+        photo.exif :
+        null;
     return {
       src: photo.url || '',
       alt: photo.alt || '',
@@ -102,7 +108,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('postDate', (value) => {
     if (!value) return '';
     const d = value instanceof Date ? value : new Date(value);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return d.toLocaleDateString(
+        'en-US', {month: 'short', day: 'numeric', year: 'numeric'});
   });
 
   eleventyConfig.addFilter('takeRelated', (posts, currentUrl) => {
@@ -110,15 +117,33 @@ module.exports = function (eleventyConfig) {
     return posts.filter((p) => p.url !== currentUrl).slice(0, 2);
   });
 
-  eleventyConfig.addFilter('navIsActive', (pageUrl, section) => {
-    if (!pageUrl || !section) return false;
-    let path = pageUrl.split('?')[0].replace(/\/index\.html$/, '');
+  function normalizedPagePath(pageUrl) {
+    if (!pageUrl) return '/';
+    let path = String(pageUrl).split('?')[0].replace(/\/index\.html$/, '');
     if (path !== '/' && path !== '' && !path.endsWith('/')) path = `${path}/`;
     if (path === '') path = '/';
+    return path;
+  }
+
+  function navPathMatchesSection(path, section) {
+    if (!section) return false;
     if (section === 'home') return path === '/';
     const prefix = `/${section}/`;
     return path === prefix || path.startsWith(prefix);
+  }
+
+  eleventyConfig.addFilter('navIsActive', (pageUrl, section) => {
+    return navPathMatchesSection(normalizedPagePath(pageUrl), section);
   });
+
+  eleventyConfig.addFilter(
+      'navActivePrimaryLabel', (pageUrl, primary, fallback) => {
+        const path = normalizedPagePath(pageUrl);
+        for (const item of primary || []) {
+          if (navPathMatchesSection(path, item.section)) return item.label;
+        }
+        return fallback != null && fallback !== '' ? fallback : 'Menu';
+      });
 
   eleventyConfig.addFilter('tagSlug', (name) => tagSlug(name));
 

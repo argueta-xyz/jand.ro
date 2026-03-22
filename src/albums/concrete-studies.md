@@ -2,7 +2,10 @@
 layout: layouts/album.njk
 title: Concrete studies
 date: 2024-11-18
+readingTime: 12 min read
+author: E. Vance-Clarke
 permalink: /albums/concrete-studies/
+excerpt: Concrete things
 tags:
   - Architecture
   - Photography
@@ -121,4 +124,4 @@ photos:
       ISO: "800"
 ---
 
-Notebook fragments from a winter survey of civic concrete.
+{{ excerpt }}

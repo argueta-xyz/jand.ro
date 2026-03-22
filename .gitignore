@@ -1,5 +1,9 @@
 # build output
 _site/
+
+# generated CSS + copied font binaries (from npm run css:build / fonts:copy)
+src/assets/css/app.css
+src/assets/fonts/*.woff2
 # generated types
 
 
